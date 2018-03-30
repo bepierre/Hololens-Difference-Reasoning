@@ -1,5 +1,5 @@
-
-#HoloLens Difference Reasoning
+HoloLens Difference Reasoning
+===
 
 The aim of this project is to compute and to display the 3D differences between a pre-loaded model of the scene and the current scan in real-time using Microsoft's HoloLens.
 It was implemented using Unity.
