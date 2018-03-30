@@ -6,6 +6,6 @@ Packages
 ProjectSettings
 Temp
 UWP
-DR 2.0 Pierre.csproj
-DR 2.0 Pierre.Editor.csproj
-Dr 2.0 Pierre.sln
+DR.csproj
+DR.Editor.csproj
+DR.sln
