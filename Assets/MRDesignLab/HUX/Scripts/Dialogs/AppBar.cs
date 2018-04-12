@@ -393,7 +393,7 @@ namespace HUX.Interaction
             }
             List<ButtonTemplate> defaultButtonsList = new List<ButtonTemplate>();
             // Create our default button templates based on user preferences
-            if (false) {
+            if (UseRemove) {
                 defaultButtonsList.Add(GetDefaultButtonTemplateFromType(ButtonTypeEnum.Remove, numCustomButtons, UseHide, UseAdjust, UseRemove));
             }
             if (UseAdjust) {

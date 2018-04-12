@@ -9,6 +9,7 @@ namespace HoloToolkit.Unity
     public class MenuReceiver : InteractionReceiver
     {
         private GameObject MiniMap_;
+        //private BoxCollider BoxCol_;
         private GameObject Map_;
         private Camera MainCamera_;
         private RenderDepthDifference RDDscript_;
@@ -23,6 +24,7 @@ namespace HoloToolkit.Unity
         {
             //Get everything that we need
             MiniMap_ = GameObject.Find("MiniMap");
+            //BoxCol_ = MiniMap_.GetComponent<BoxCollider>();
             Map_ = GameObject.Find("Map");
             MainCamera_ = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             RDDscript_ = MainCamera_.GetComponent<RenderDepthDifference>();
@@ -59,6 +61,7 @@ namespace HoloToolkit.Unity
                     RDDscript_.enabled = true;
                     Map_.layer = LayerMask.NameToLayer("ReferenceLayer");
                     MiniMap_.layer = LayerMask.NameToLayer("Hidden");
+                    //BoxCol_.enabled = false;
                     SpatialMapping_.SetActive(true);
                     break;
 
@@ -79,7 +82,6 @@ namespace HoloToolkit.Unity
                     break;
 
                 case "LoadButton":
-                    
                     break;
 
                 /*
