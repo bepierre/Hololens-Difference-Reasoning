@@ -3,6 +3,9 @@ using HUX.Focus;
 using HUX.Interaction;
 using HUX.Receivers;
 using UnityEngine;
+using System.Collections;
+using HUX.Dialogs;
+
 
 namespace HoloToolkit.Unity
 {
@@ -19,6 +22,16 @@ namespace HoloToolkit.Unity
         private Billboard Bscript_;
         private GameObject LockButton_;
         private GameObject UnlockButton_;
+        private GameObject BBshell_;
+
+        //About dialog
+        public GameObject DialogPrefab;
+        public GameObject[] LaunchDialogButtons;
+        [Header("About Button options")]
+        public string Dialog1Title = "About.";
+        [TextArea]
+        public string Dialog1Message = "Description.";
+        SimpleDialog.ButtonTypeEnum Dialog1Button = SimpleDialog.ButtonTypeEnum.Close;
 
         void Start()
         {
@@ -63,6 +76,11 @@ namespace HoloToolkit.Unity
                     MiniMap_.layer = LayerMask.NameToLayer("Hidden");
                     //BoxCol_.enabled = false;
                     SpatialMapping_.SetActive(true);
+
+                    //remove the bounding box shell that is created when tapping on minimap during manual alignement
+                    //clicking on the minimap in manual align will bring it back
+                    BBshell_ = GameObject.Find("BoundingBoxShell(Clone)");
+                    Destroy(BBshell_);
                     break;
 
                 // Lock Button
@@ -81,8 +99,22 @@ namespace HoloToolkit.Unity
                     LockButton_.SetActive(true);
                     break;
 
+                // Load Button
+                // loads minimap and map mesh
                 case "LoadButton":
                     break;
+
+                // About Button
+                case "AboutButton":
+                    SimpleDialog.ButtonTypeEnum buttons = SimpleDialog.ButtonTypeEnum.Close;
+                    string title = string.Empty;
+                    string message = string.Empty;
+                    title = Dialog1Title;
+                    message = Dialog1Message;
+                    buttons = Dialog1Button;
+                    StartCoroutine(LaunchDialogOverTime(buttons, title, message));
+                    break;
+
 
                 /*
                 case "RmButton":
@@ -113,5 +145,29 @@ namespace HoloToolkit.Unity
             base.OnFocusExit(obj, args);
         }
 
+
+        protected IEnumerator LaunchDialogOverTime(SimpleDialog.ButtonTypeEnum buttons, string title, string message)
+        {
+            // Disable all our buttons
+            foreach (GameObject buttonGo in Interactibles)
+            {
+                buttonGo.SetActive(false);
+            }
+
+            SimpleDialog dialog = SimpleDialog.Open(DialogPrefab, buttons, title, message);
+
+            // Wait for dialog to close
+            while (dialog.State != SimpleDialog.StateEnum.Closed)
+            {
+                yield return null;
+            }
+
+            // Enable all our buttons
+            foreach (GameObject buttonGo in Interactibles)
+            {
+                buttonGo.SetActive(true);
+            }
+            yield break;
+        }
     }
 }
