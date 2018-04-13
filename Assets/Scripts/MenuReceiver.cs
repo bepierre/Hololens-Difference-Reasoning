@@ -1,11 +1,10 @@
-﻿
-using HUX.Focus;
+﻿using HUX.Focus;
 using HUX.Interaction;
 using HUX.Receivers;
 using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 using HUX.Dialogs;
-
 
 namespace HoloToolkit.Unity
 {
@@ -145,13 +144,22 @@ namespace HoloToolkit.Unity
             base.OnFocusExit(obj, args);
         }
 
-
         protected IEnumerator LaunchDialogOverTime(SimpleDialog.ButtonTypeEnum buttons, string title, string message)
         {
-            // Disable all our buttons
-            foreach (GameObject buttonGo in Interactibles)
+            //Everything off
+            RDDscript_.enabled = false;
+            Map_.layer = LayerMask.NameToLayer("Hidden");
+            MiniMap_.layer = LayerMask.NameToLayer("Hidden");
+            SpatialMapping_.SetActive(false);
+
+            // Disable all buttons that are active
+            List<string> unactiveButtonNames = new List<string>(); ;
+            foreach (GameObject button in Interactibles)
             {
-                buttonGo.SetActive(false);
+                if (button.activeSelf)
+                    button.SetActive(false);
+                else
+                    unactiveButtonNames.Add(button.name);
             }
 
             SimpleDialog dialog = SimpleDialog.Open(DialogPrefab, buttons, title, message);
@@ -162,10 +170,11 @@ namespace HoloToolkit.Unity
                 yield return null;
             }
 
-            // Enable all our buttons
-            foreach (GameObject buttonGo in Interactibles)
+            // Enable all buttons that were active initially
+            foreach (GameObject button in Interactibles)
             {
-                buttonGo.SetActive(true);
+                if(!unactiveButtonNames.Contains(button.name))
+                    button.SetActive(true);
             }
             yield break;
         }
