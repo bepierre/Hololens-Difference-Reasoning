@@ -37,6 +37,6 @@ SpatialMapping which is the scene that is used to do real-time difference reason
 
 - New Scenes etc...
 
-If you have any questions don't hesitate -> bepierre@student.ethz.ch
+If you have any questions don't hesitate -> pierrebeckmann@gmail.com or mathislamarre@gmail.com
 
 PLEASE USE THIS UNITY : https://unity3d.com/de/unity/beta/unity2017.2.0b2
